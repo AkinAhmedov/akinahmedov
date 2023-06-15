@@ -29,7 +29,7 @@ class MainController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'Status' => false,
-                'Message' => $th->getMessage()]);
+                'Message' => 'asdasd'.$th->getMessage()]);
         }
     }
 
@@ -252,6 +252,7 @@ class MainController extends Controller
             return PostModel::all();
 
         if ($text == 'postDateDistinct') {
+            $finalDisDate = array(); // post olmadığında hata vermesin bu değişken yok diye
             $postsDateDistinct = DB::table('post')
                 ->select(DB::raw('YEAR(created_at) year, MONTH(created_at) month'))
                 ->distinct()

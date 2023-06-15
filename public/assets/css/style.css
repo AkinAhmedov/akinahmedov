@@ -52,7 +52,7 @@ Developed:      heloshape (http://heloshape.com/)
 @import url('../vendor/fancybox/dist/jquery.fancybox.min.css');
 
 
-/*** 
+/***
 
 ====================================================================
   Loading Transition
@@ -84,11 +84,11 @@ Developed:      heloshape (http://heloshape.com/)
   position:absolute;
   animation: preloader_1 1.5s  infinite ease-in-out;
 }
- 
+
 #loader span:nth-child(2){
 left:11px;
 animation-delay: .2s;
- 
+
 }
 #loader span:nth-child(3){
 left:22px;
@@ -344,11 +344,11 @@ body .theme-button-one:hover {background: #1d1d1d;}
   -webkit-transform:rotate(-45deg);
           transform:rotate(-45deg);
 }
-.main-page-wrapper.blury-bg { 
-  -webkit-filter: blur(4px); 
-  -moz-filter: blur(4px); 
-  -ms-filter: blur(4px); 
-  -o-filter: blur(4px); 
+.main-page-wrapper.blury-bg {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -ms-filter: blur(4px);
+  -o-filter: blur(4px);
   filter: blur(4px);
 }
 /*-------------------------- Theme Header ------------------*/
@@ -936,7 +936,7 @@ body .theme-button-one:hover {background: #1d1d1d;}
   font-size: 12px;
 }
 .blog-details .main-post-wrapper .bottom-content .tag-meta li a:hover {color: #fff;}
-.blog-details .main-post-wrapper .bottom-content .share-meta .share-option {position: relative;} 
+.blog-details .main-post-wrapper .bottom-content .share-meta .share-option {position: relative;}
 .blog-details .main-post-wrapper .bottom-content .share-meta .share-option button {
   text-transform: uppercase;
   line-height: 24px;
@@ -1038,7 +1038,7 @@ body .theme-button-one:hover {background: #1d1d1d;}
   background: #212121;
   font-size: 12px;
   font-weight: 600;
-} 
+}
 .comment-meta .single-comment .comment .reply:hover {color: #fff;}
 .comment-form form input {
   width: 100%;
@@ -1096,6 +1096,7 @@ body .theme-button-one:hover {background: #1d1d1d;}
   position: relative;
   background: url(../images/home/10.jpg) no-repeat center center;
   background-size: cover;
+    padding-top: 5%;
 }
 .about-me-wrapper .main-text-wrapper {
   position: relative;

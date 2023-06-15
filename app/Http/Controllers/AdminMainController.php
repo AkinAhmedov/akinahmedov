@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
+use Intervention\Image\ImageManagerStatic as Image;
+use ImageResize;
+
+
+
 
 class AdminMainController extends Controller
 {
@@ -134,25 +139,34 @@ class AdminMainController extends Controller
                 $post = new PostModel;
 
             if ($request->hasFile('img')) {
+
                 $file = $request->file('img');
                 $extn = $file->getClientOriginalExtension();
                 $fileName = time() . '.' . $extn;
                 $file->move('assets/uploads', $fileName);
 
+                //copy('assets/uploads/'.$fileName, "assets/uploads/list-".$fileName);
+
+
                 if ($post->img <> null) {
                     $path = public_path() . "/assets/uploads/" . $post->img;
+                    //$pathList = public_path() . "/assets/uploads/list-" . $post->img;
                     unlink($path);
+                    //unlink($pathList);
                 }
+
+
 
                 if (!$file)
                     return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => 'Resim yüklenirken bir hata oluştu.']);
             } else
                 $fileName = $request->oldImg;
 
-
             $post->title = $request->title;
             $post->description = $request->description;
             $post->img = $fileName;
+
+            $post->listimg = 'list-'.$fileName;
             $post->category_id = $request->subcategory;
             $post->tags = $request->tags;
 

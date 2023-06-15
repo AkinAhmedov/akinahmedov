@@ -70,7 +70,7 @@
                         <h2>Akın Ahmedov</h2>
                         <h3>Yazılımcı</h3>
                         <p>Merhaba, ben Akın. 10 yıldır Oracle PL/SQL ve Oracle Forms geliştirme konusunda
-                            deneyimliyim. Önceden 7 yıl başka bir yazılım şirketinde çalıştım ve şu anda 3 yıldır
+                            deneyimliyim. Önceden 7 yıl başka bir yazılım şirketinde çalıştım ve şu anda 4 yıldır
                             bulunduğum şirkette Oracle veritabanı yönetimi, PL/SQL programlama ve Oracle Forms
                             geliştirme konularında uzmanlaşmış durumdayım. Kullanıcıların ihtiyaçlarını anlamak ve en
                             iyi çözümleri sunmak için çaba sarf ederim. Analitik düşünme becerilerim ve takım

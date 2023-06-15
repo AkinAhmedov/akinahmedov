@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="post-meta-box bg-box">
                                     <ul class="author-meta clearfix">
-                                        <li class="date"><a href="archives.html">{{date('d-M-Y', strtotime($post->created_at))}}</a>
+xz                                        <li class="date"><a href="archives.html">{{date('d-M-Y', strtotime($post->created_at))}}</a>
                                         </li>
                                     </ul>
                                     <h4 class="title"><a href="/post/detail/{{$post->id}}">{{$post->title}}</a></h4>
