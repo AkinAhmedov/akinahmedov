@@ -69,6 +69,7 @@
                     <div class="col-xl-7 col-lg-8 col-12">
                         <h2>Akın Ahmedov</h2>
                         <h3>Yazılımcı</h3>
+                        <div style="font-size: 14px; color: gray">CV mi <a href="/downloadCV" style="font-size: 16px">buradan </a> indirebilirsiniz...</div><br>
                         <p>Merhaba, ben Akın. 10 yıldır Oracle PL/SQL ve Oracle Forms geliştirme konusunda
                             deneyimliyim. Önceden 7 yıl başka bir yazılım şirketinde çalıştım ve şu anda 4 yıldır
                             bulunduğum şirkette Oracle veritabanı yönetimi, PL/SQL programlama ve Oracle Forms

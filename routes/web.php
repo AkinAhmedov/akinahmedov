@@ -19,6 +19,8 @@ Route::post('/search/keyword', [MainController::class, 'searchKeyword']);
 Route::post('/subscribe', [MainController::class, 'subscribe']);
 Route::post('/contact', [ContactController::class, 'contact']);
 
+Route::get('/downloadCV', [AboutController::class, 'downloadCV']);
+
 
 Route::get('/admin/settings', [AdminMainController::class, 'getSettings']);
 Route::post('/admin/settings', [AdminMainController::class, 'saveSettings']);
