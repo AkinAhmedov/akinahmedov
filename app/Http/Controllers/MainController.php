@@ -29,7 +29,7 @@ class MainController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'Status' => false,
-                'Message' => 'asdasd'.$th->getMessage()]);
+                'Message' => $th->getMessage()]);
         }
     }
 

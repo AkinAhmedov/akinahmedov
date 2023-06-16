@@ -14,8 +14,6 @@ use Intervention\Image\ImageManagerStatic as Image;
 use ImageResize;
 
 
-
-
 class AdminMainController extends Controller
 {
     public function index()
@@ -133,6 +131,11 @@ class AdminMainController extends Controller
     {
         try {
 
+            $this->validate($request, [
+                'img' => 'image|mimes:jpg,jpeg,png,svg,gif|max:2048',
+            ]);
+
+
             if ($request->postid <> null) {
                 $post = PostModel::find($request->postid);
             } else
@@ -143,9 +146,7 @@ class AdminMainController extends Controller
                 $file = $request->file('img');
                 $extn = $file->getClientOriginalExtension();
                 $fileName = time() . '.' . $extn;
-                $file->move('assets/uploads', $fileName);
-
-                //copy('assets/uploads/'.$fileName, "assets/uploads/list-".$fileName);
+                $file->move('assets/uploads/', $fileName);
 
 
                 if ($post->img <> null) {
@@ -155,8 +156,6 @@ class AdminMainController extends Controller
                     //unlink($pathList);
                 }
 
-
-
                 if (!$file)
                     return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => 'Resim yüklenirken bir hata oluştu.']);
             } else
@@ -165,22 +164,10 @@ class AdminMainController extends Controller
             $post->title = $request->title;
             $post->description = $request->description;
             $post->img = $fileName;
-
-            $post->listimg = 'list-'.$fileName;
+            $post->listimg = 'list-' . $fileName;
             $post->category_id = $request->subcategory;
             $post->tags = $request->tags;
-
             $post->save();
-
-            /*
-            $savePost = PostModel::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'img' => $fileName,
-                'category_id' => $request->subcategory,
-                'tags' => $request->tags,
-            ]);
-            */
 
             if ($post)
                 return redirect()->route('adminPosts')->with(['Status' => 'success', 'Title' => 'Başarılı.', 'Message' => 'Başarıyla Kaydedildi.']);
@@ -285,13 +272,15 @@ class AdminMainController extends Controller
         }
     }
 
-    public function getComments(){
+    public function getComments()
+    {
 
         $allComments = app(MainController::class)->helper('getCommentsPaginate');
         return view('admin.comments', compact('allComments'));
     }
 
-    public function deleteComment($id){
+    public function deleteComment($id)
+    {
         try {
 
             $comment = app(MainController::class)->helper('getAComment', $id);
@@ -303,18 +292,20 @@ class AdminMainController extends Controller
             return redirect()->route('adminComments')->with(['Status' => 'success', 'Title' => 'Başarılı!!', 'Message' => 'Silme işlemi başarılı']);
 
 
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => $th->getMessage()]);
         }
     }
 
-    public function getSubscribes(){
+    public function getSubscribes()
+    {
 
         $allSubscribes = app(MainController::class)->helper('getSubscribesPaginate');
         return view('admin.subscribes', compact('allSubscribes'));
     }
 
-    public function deleteSubscribe($id){
+    public function deleteSubscribe($id)
+    {
         try {
 
             $subscribe = app(MainController::class)->helper('getASubscribe', $id);
@@ -326,18 +317,20 @@ class AdminMainController extends Controller
             return redirect()->route('adminSubscribes')->with(['Status' => 'success', 'Title' => 'Başarılı!!', 'Message' => 'Silme işlemi başarılı']);
 
 
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => $th->getMessage()]);
         }
     }
 
-    public function getContacts(){
+    public function getContacts()
+    {
 
         $allContacts = app(MainController::class)->helper('getContactsPaginate');
         return view('admin.contacts', compact('allContacts'));
     }
 
-    public function deleteContact($id){
+    public function deleteContact($id)
+    {
         try {
 
             $contact = app(MainController::class)->helper('getAContact', $id);
@@ -349,7 +342,7 @@ class AdminMainController extends Controller
             return redirect()->route('adminContacts')->with(['Status' => 'success', 'Title' => 'Başarılı!!', 'Message' => 'Silme işlemi başarılı']);
 
 
-        }catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => $th->getMessage()]);
         }
     }
