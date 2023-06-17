@@ -7,6 +7,7 @@ use App\Models\PostModel;
 use App\Models\SettingsModel;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
@@ -18,6 +19,9 @@ class AdminMainController extends Controller
 {
     public function index()
     {
+        if (!Auth::user())
+            return redirect('/login');
+
         $posts = app(MainController::class)->helper('postsCount');
         $allComments = app(MainController::class)->helper('getComments');
         $allSubscribe = app(MainController::class)->helper('getAllSubscribe');
@@ -34,6 +38,9 @@ class AdminMainController extends Controller
     public function getSettings()
     {
         try {
+            if(!Auth::user())
+                return redirect('/login');
+
             $settings = SettingsModel::all()->pluck('value', 'key_')->toArray();
             return view('admin.settings', compact('settings'));
 
@@ -62,6 +69,9 @@ class AdminMainController extends Controller
     public function getPosts()
     {
         try {
+            if (!Auth::user())
+                return redirect('/login');
+
             $posts = app(MainController::class)->helper('adminPosts');
             return view('admin.posts', compact('posts'));
 

@@ -28,7 +28,7 @@ xz                                        <li class="date"><a href="archives.htm
                                         <li><a href="#"><i class="icon flaticon-like-heart"></i>Likes (05)</a></li>
                                     </ul>
                                     -->
-                                    <p>{{Illuminate\Support\Str::words($post->description, 15)}}</p>
+                                    <p>{!! Illuminate\Support\Str::words($post->description, 40) !!}</p>
                                 </div> <!-- /.post-meta-box -->
                             </div> <!-- /.single-blog-post -->
                         </div> <!-- /.col -->

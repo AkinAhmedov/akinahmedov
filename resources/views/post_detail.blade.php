@@ -15,7 +15,7 @@
                             </li>
                             <li class="date"><a href="#">{{date('d M Y', strtotime($post->created_at))}}</a></li>
                         </ul>
-                        <p>{{$post->description}}</p>
+                        <p>{!! $post->description !!}</p>
                         <div class="bottom-content clearfix">
                             <ul class="tag-meta float-left">
                                 <li>tags:</li>
