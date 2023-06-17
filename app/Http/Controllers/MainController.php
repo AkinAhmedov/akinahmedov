@@ -24,6 +24,7 @@ class MainController extends Controller
             $tags = $this->helper('tags');
             $catParent0 = $this->helper('mainCats');
 
+
             return view('main', ['settings' => $settings, 'posts' => $posts, 'postsDateDistinct' => $postsDateDistinct, 'tags' => $tags, 'lastestPosts' => $lastestPosts, 'catParent0' => $catParent0]);
 
         } catch (\Throwable $th) {
@@ -273,7 +274,9 @@ class MainController extends Controller
             $allPosts = PostModel::join('category', 'category.id', 'post.category_id')->get();
             $tags = array();
             foreach ($allPosts as $item)
-                array_push($tags, $item->tags); // tüm taglerı bir dizie eleman olarak ekliyoruz.
+                foreach (explode(',', $item->tags) as $itm)
+                    array_push($tags, trim($itm)); // tüm taglerı bir dizie eleman olarak ekliyoruz.
+
 
             return implode(',', array_unique($tags)); // her elemnı tek bir eleman haline getirip virgüllerle ayırıyorıuz
         }
@@ -320,7 +323,6 @@ class MainController extends Controller
 
         if ($text == 'getAContact')
             return ContactModel::find($id);
-
 
 
     }

@@ -19,7 +19,7 @@
         <title>{{$settings['title']}}</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png"  href="{{asset('assets/images/fav-icon/favicon.png')}}">
+        <link rel="icon" type="image/png" href="{{asset('assets/images/fav-icon/favicon.png')}}">
 
 
         <!-- Main style sheet -->
@@ -37,7 +37,6 @@
         <script src="{{asset('assets/vendor/html5shiv.js')}}"></script>
         <script src="{{asset('assets/vendor/respond.js')}}"></script>
         <![endif]-->
-
 
 
     </head>
