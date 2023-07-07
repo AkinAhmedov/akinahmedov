@@ -165,6 +165,16 @@
                             </p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="/admin/contacts" class="nav-link">
+                            <i class="nav-icon fas fa-window-restore"></i>
+                            <p>
+                                Patterns
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->

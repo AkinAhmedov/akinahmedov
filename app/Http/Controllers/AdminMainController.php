@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
-use Intervention\Image\ImageManagerStatic as Image;
-use ImageResize;
+use Image;
+
 
 
 class AdminMainController extends Controller
@@ -38,7 +38,7 @@ class AdminMainController extends Controller
     public function getSettings()
     {
         try {
-            if(!Auth::user())
+            if (!Auth::user())
                 return redirect('/login');
 
             $settings = SettingsModel::all()->pluck('value', 'key_')->toArray();
@@ -106,12 +106,13 @@ class AdminMainController extends Controller
         try {
             $post = PostModel::find($id);
             $mainCats = app(MainController::class)->helper('mainCats');
+            $patterns = app(MainController::class)->helper('getAllPatterns');
 
             /* posttaki alt kategorinin ala kategorsini getirir */
             $postMainCat = app(MainController::class)->helper('getCatWithId', app(MainController::class)->helper('getCatWithId', $post->category_id)->parent_id);
 
 
-            return view('admin.add_post', compact(['post', 'mainCats', 'postMainCat']));
+            return view('admin.add_post', compact(['post', 'mainCats', 'postMainCat', 'patterns']));
 
         } catch (\Throwable $th) {
             return redirect()->route('adminPosts')->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => $th->getMessage()]);
@@ -122,7 +123,8 @@ class AdminMainController extends Controller
     {
         try {
             $mainCats = app(MainController::class)->helper('mainCats');
-            return view('admin.add_post', compact('mainCats'));
+            $patterns = app(MainController::class)->helper('getAllPatterns');
+            return view('admin.add_post', compact('mainCats', 'patterns'));
 
         } catch (\Throwable $th) {
             return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => $th->getMessage()]);
@@ -141,35 +143,68 @@ class AdminMainController extends Controller
     {
         try {
 
-            $this->validate($request, [
-                'img' => 'image|mimes:jpg,jpeg,png,svg,gif|max:2048',
-            ]);
+            $patternPath = public_path() . "/assets/uploads/pattern/";
+            $imgPath = public_path() . "/assets/uploads/";
+            $pattern = app(MainController::class)->helper('getPatternWithId', $request->pattern)->description;
 
 
             if ($request->postid <> null) {
                 $post = PostModel::find($request->postid);
-            } else
-                $post = new PostModel;
 
-            if ($request->hasFile('img')) {
+                if ($post->pattern_id <> $request->pattern || $post->pattern_text <> $request->patternText)
+                {
+                    /* editte yeni image seçti ise eskisini sunucudan siliyoruz */
+                    unlink($imgPath . $post->img);
 
-                $file = $request->file('img');
-                $extn = $file->getClientOriginalExtension();
-                $fileName = time() . '.' . $extn;
-                $file->move('assets/uploads/', $fileName);
+                    $fileName = strtolower(str_replace(' ', '-', $request->title)).'.png';
+
+                    $img = Image::make($patternPath.$pattern.'.png');
+                    $img->text($request->patternText, 390, 225, function ($font){
+                        $font->file(public_path() . "/assets/uploads/pattern/".'HussarBold.otf');
+                        $font->size(65);
+                        $font->color('#ffffff');
+                        $font->align('center');
+                        $font->valign('top');
+                    });
+
+                    $img->save($imgPath.$fileName);
 
 
-                if ($post->img <> null) {
-                    $path = public_path() . "/assets/uploads/" . $post->img;
-                    //$pathList = public_path() . "/assets/uploads/list-" . $post->img;
-                    unlink($path);
-                    //unlink($pathList);
+                    if (!$img)
+                        return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => 'Resim yüklenirken bir hata oluştu.']);
+                }
+                else {
+                    if ($post->title <> $request->title) {
+                        $path = $imgPath . $request->oldImg;
+                        $fileName = strtolower(str_replace(':', '', str_replace(' ', '-', $request->title))) . '.png';
+                        $newPath = $imgPath . $fileName;
+
+                        /* sunucudaki img nin adını değiştir */
+                        rename($path, $newPath);
+
+                    } else
+                        $fileName = $request->oldImg;
                 }
 
-                if (!$file)
-                    return redirect()->back()->with(['Status' => 'error', 'Title' => 'Hata!!', 'Message' => 'Resim yüklenirken bir hata oluştu.']);
             } else
-                $fileName = $request->oldImg;
+            {
+                $post = new PostModel;
+
+                $fileName = strtolower(str_replace(' ', '-', $request->title)).'.png';
+
+                $img = Image::make($patternPath.$pattern.'.png');
+
+                $img->text(strtoupper($request->patternText), 390, 225, function ($font){
+                    $font->file(public_path() . "/assets/uploads/pattern/".'HussarBold.otf');
+                    $font->size(65);
+                    $font->color('#ffffff');
+                    $font->align('center');
+                    $font->valign('top');
+                });
+
+                $img->save($imgPath.$fileName);
+            }
+
 
             $post->title = $request->title;
             $post->description = $request->description;
@@ -177,6 +212,8 @@ class AdminMainController extends Controller
             $post->listimg = 'list-' . $fileName;
             $post->category_id = $request->subcategory;
             $post->tags = $request->tags;
+            $post->pattern_id = $request->pattern;
+            $post->pattern_text = $request->patternText;
             $post->save();
 
             if ($post)

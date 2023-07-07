@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryModel;
 use App\Models\CommentModel;
 use App\Models\ContactModel;
+use App\Models\PatternsModel;
 use App\Models\PostModel;
 use App\Models\SettingsModel;
 use App\Models\SubscribeModel;
@@ -323,6 +324,14 @@ class MainController extends Controller
 
         if ($text == 'getAContact')
             return ContactModel::find($id);
+
+        if($text == 'getAllPatterns')
+            return PatternsModel::all();
+
+        if($text == 'getPatternWithId')
+        {
+            return PatternsModel::find($id);
+        }
 
 
     }

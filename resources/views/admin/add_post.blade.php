@@ -16,7 +16,8 @@
                         <!-- form start -->
                         <form id="addpost" action="/admin/addpost" method="post" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" id="postid" name="postid" value="{{(isset($post->id) ? $post->id : null)}}" hidden />
+                            <input type="text" id="postid" name="postid"
+                                   value="{{(isset($post->id) ? $post->id : null)}}" hidden/>
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="title">Title</label>
@@ -31,12 +32,30 @@
                                     </textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="customFile">Image</label>
-                                    <div class="custom-file">
-                                        <label class="custom-file-label" for="customFile">{{(isset($post->img) ? $post->img : null)}}</label>
-                                        <input type="file" class="custom-file-input" id="customFile" name="img" value="{{(isset($post->img) ? $post->img : null)}}" onchange="changeImg(value);"/>
-                                        <input type="text" name="oldImg" value="{{(isset($post->img) ? $post->img : null)}}" hidden />
-                                    </div>
+                                    <label for="customFile">Pattern</label>
+                                    <select id="pattern" name="pattern" class="form-control" required>
+                                        <option value="0">Select a Pattern ...</option>
+                                        @foreach($patterns as $i)
+                                            @if(isset($post->pattern_id))
+                                                @if($i->id == $post->pattern_id)
+                                                    <option selected value="{{$i->id}}">{{$i->description}}</option>
+                                                @else
+                                                    <option value="{{$i->id}}">{{$i->description}}</option>
+                                                @endif
+                                            @else
+                                                <option value="{{$i->id}}">{{$i->description}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+
+                                    <input type="text" name="oldImg" value="{{(isset($post->img) ? $post->img : null)}}"
+                                           hidden/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Pattern Text</label>
+                                    <input type="text" id="patternText" name="patternText" class="form-control"
+                                           value="{{(isset($post->pattern_text) ? $post->pattern_text : null)}}"
+                                           required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="mainCats">Main Category</label>
@@ -65,7 +84,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="tags">Tags</label>
-                                    <input type="text" value="{{(isset($post->tags) ? $post->tags : null)}}" class="form-control" id="tags" name="tags"
+                                    <input type="text" value="{{(isset($post->tags) ? $post->tags : null)}}"
+                                           class="form-control" id="tags" name="tags"
                                            placeholder="Add tags" required/>
                                 </div>
 
@@ -93,11 +113,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
             @if(isset($postMainCat->id))
-                catSelected({{$postMainCat->id}});
+            catSelected({{$postMainCat->id}});
             @endif
         });
 
-        function changeImg(value){
+        function changeImg(value) {
             $('#oldImg').val(value);
         }
 
@@ -119,8 +139,15 @@
                         for (var i = 0; i < len; i++) {
                             var categoryId = data.data[i]['id'];
                             var categoryName = data.data[i]['category'];
+                            @if(isset($post))
+                            if ({{$post->category_id}} == categoryId)
+                                $('#subCat').append("<option  selected value='" + categoryId + "'>" + categoryName + "</option>");
+                            else
+                                $('#subCat').append("<option  value='" + categoryId + "'>" + categoryName + "</option>");
+                            @else
+                            $('#subCat').append("<option value='" + categoryId + "'>" + categoryName + "</option>");
+                            @endif
 
-                            $('#subCat').append("<option {{(isset($postMainCat->id) ? 'selected' : null)}} value='" + categoryId + "'>" + categoryName + "</option>");
                         }
                         console.log(data.data);
                     },

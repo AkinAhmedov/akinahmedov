@@ -188,6 +188,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'ImageResize' => Intervention\Image\Facades\Image::class,
+        'Image' => Intervention\Image\ImageManagerStatic::class,
+
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

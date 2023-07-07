@@ -18,6 +18,8 @@ class PostModel extends Model
         'listimg',
         'category_id',
         'tags',
+        'pattern_id',
+        'pattern_text',
     ];
 
 
